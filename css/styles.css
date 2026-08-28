@@ -346,6 +346,7 @@ html[lang="ar"] .cc-label { letter-spacing: 0; font-size: .85rem; }
   .quote-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
+  .container { width: 88%; }
   .main-nav {
     position: fixed; inset-inline: 0; top: 64px;
     background: var(--ink); border-bottom: 1px solid rgba(var(--accent-rgb),.25);
