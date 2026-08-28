@@ -1,11 +1,9 @@
 /* ============ REGENCY site scripts ============ */
 
-/* ---- Contact configuration ----
-   NOTE: confirm the email address before going live — it is a guess
-   based on the company domain (regencyc.co). */
+/* ---- Contact configuration ---- */
 const CONTACT = {
   email: "info@regencyc.co",
-  whatsapp: "966561503424", // +966 56 150 3424
+  whatsapp: "966503945599", // +966 50 394 5599
 };
 
 /* ============ Services data (EN + AR) ============ */
