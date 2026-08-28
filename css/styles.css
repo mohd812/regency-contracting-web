@@ -299,7 +299,7 @@ a.contact-card:hover { border-color: var(--gold); }
 html[lang="ar"] .cc-label { letter-spacing: 0; font-size: .85rem; }
 .cc-value { color: var(--white); font-family: var(--font-head); font-size: 1.1rem; }
 .cc-addr { font-family: var(--font-body); font-size: .85rem; line-height: 1.5; color: var(--text-light); }
-.contact-card:has(.cc-addr) { grid-column: 1 / -1; }
+.contact-card:has(.cc-addr), .contact-card.cc-full { grid-column: 1 / -1; }
 
 .quote-form {
   background: var(--charcoal-2); border: 1px solid rgba(210,167,46,.2);
