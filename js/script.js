@@ -310,6 +310,7 @@ function renderServices() {
 /* ============ Sector tabs ============ */
 function setSector(sector) {
   activeSector = sector;
+  document.body.classList.toggle("theme-b", sector === "b");
   $("#tabA").classList.toggle("active", sector === "a");
   $("#tabB").classList.toggle("active", sector === "b");
   $("#tabA").setAttribute("aria-selected", sector === "a");
