@@ -360,22 +360,57 @@ function buildMessage() {
     `${L.msg}:`,
     f.message.value.trim(),
   ].filter(Boolean);
-  return { subject: L.subj + f.name.value.trim(), body: lines.join("\n") };
+  return {
+    subject: L.subj + f.name.value.trim(),
+    body: lines.join("\n"),
+    fields: {
+      [L.name]: f.name.value.trim(),
+      [L.co]: f.company.value.trim(),
+      [L.ph]: f.phone.value.trim(),
+      email: f.email.value.trim(),
+      [L.sec]: sectorText,
+      [L.svc]: svcText,
+      [L.msg]: f.message.value.trim(),
+    },
+  };
 }
 
-$("#quoteForm").addEventListener("submit", (e) => {
+$("#quoteForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const f = e.target;
   if (!f.reportValidity()) return;
-  const { subject, body } = buildMessage();
-  window.location.href =
-    `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const ar = lang === "ar";
   const note = $("#formNote");
-  note.hidden = false;
-  note.textContent =
-    lang === "ar"
-      ? "تم فتح تطبيق البريد لديك لإرسال الطلب — أو تواصل معنا مباشرة عبر واتساب."
-      : "Your email app has been opened to send the request — or contact us directly via WhatsApp.";
+  const btn = f.querySelector('button[type="submit"]');
+  const btnHTML = btn.innerHTML;
+  const { subject, body, fields } = buildMessage();
+  btn.disabled = true;
+  btn.textContent = ar ? "جارٍ الإرسال…" : "Sending…";
+  note.hidden = true;
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${CONTACT.email}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ ...fields, _subject: subject, _template: "table", _captcha: "false" }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || String(data.success) !== "true") throw new Error(data.message || "send failed");
+    f.reset();
+    fillServiceSelect();
+    note.textContent = ar
+      ? "تم إرسال طلبك بنجاح — سيتواصل معك فريقنا قريباً."
+      : "Your request has been sent successfully — our team will contact you soon.";
+  } catch (err) {
+    window.location.href =
+      `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    note.textContent = ar
+      ? "تعذر الإرسال المباشر، فتم فتح تطبيق البريد لديك بدلاً من ذلك — أو تواصل معنا عبر واتساب."
+      : "Direct sending was unavailable, so your email app was opened instead — or reach us via WhatsApp.";
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = btnHTML;
+    note.hidden = false;
+  }
 });
 
 $("#whatsappBtn").addEventListener("click", () => {
