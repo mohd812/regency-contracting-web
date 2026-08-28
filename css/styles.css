@@ -30,11 +30,8 @@ body.theme-b {
   --accent-deep: #1b86b5;
   --accent-rgb: 42, 169, 224;
 }
-.brand-tag-b { display: none; }
-body.theme-b .brand-tag-a { display: none; }
-body.theme-b .brand-tag-b { display: inline; }
 .section-tag, .stat-num, .why-icon, .cc-label, .eyebrow, .lang-toggle,
-.hero-frame, .mv-card, .form-note, .brand-sub, .site-header {
+.hero-frame, .mv-card, .form-note, .site-header {
   transition: background-color .35s ease, border-color .35s ease, color .35s ease;
 }
 
@@ -59,27 +56,12 @@ ul { list-style: none; }
 h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; }
 html[lang="ar"] h1, html[lang="ar"] h2 { line-height: 1.35; }
 
-/* ---- brand wordmark ---- */
-.brand { display: inline-flex; flex-direction: column; line-height: 1; direction: ltr; }
-.brand-name {
-  font-family: var(--font-logo);
-  font-size: 1.5rem;
-  letter-spacing: .34em;
-  color: var(--white);
-  white-space: nowrap;
-}
-.brand-sub {
-  display: flex; align-items: center; gap: .6em;
-  margin-top: .45em;
-  font-family: var(--font-body);
-  font-size: .58rem; font-weight: 600;
-  letter-spacing: .52em;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-.brand-ticks { display: inline-block; width: 72px; height: 8px;
-  background-image: repeating-linear-gradient(90deg, var(--accent) 0 2px, transparent 2px 6px);
-}
+/* ---- brand logo (extracted from company profile; always English) ---- */
+.brand { display: inline-flex; align-items: center; direction: ltr; }
+.brand-img { height: 46px; width: auto; display: block; }
+.brand-img-b { display: none; }
+body.theme-b .brand-img-a { display: none; }
+body.theme-b .brand-img-b { display: block; }
 
 /* ---- bars motif ---- */
 .bars { height: 46px;
@@ -231,23 +213,15 @@ html[lang="ar"] .why-card h3 { text-transform: none; }
 /* ---- services ---- */
 .sector-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2.6rem; }
 .sector-tab {
-  display: flex; align-items: center; gap: 1rem;
-  text-align: start;
+  display: flex; flex-direction: column; align-items: center; gap: .8rem;
+  text-align: center;
   background: var(--white); border: 2px solid transparent; border-radius: var(--radius);
-  padding: 1.1rem 1.4rem; cursor: pointer;
+  padding: 1.4rem 1.4rem 1.2rem; cursor: pointer;
   box-shadow: var(--shadow); transition: all .22s ease;
   font-family: var(--font-body);
 }
-.sector-kicker {
-  font-family: var(--font-head); font-weight: 700; font-size: 1.5rem;
-  width: 52px; height: 52px; flex: none;
-  display: grid; place-items: center;
-  border-radius: 8px; color: var(--ink);
-}
-.sector-tab-a .sector-kicker { background: var(--gold); }
-.sector-tab-b .sector-kicker { background: var(--blue); }
-.sector-tab strong { display: block; font-size: 1.05rem; color: var(--text-dark); }
-.sector-tab small { color: var(--text-mute); font-size: .82rem; }
+.sector-logo { height: 58px; width: auto; max-width: 100%; border-radius: 6px; display: block; }
+.sector-tab small { color: var(--text-mute); font-size: .86rem; }
 .sector-tab.active.sector-tab-a { border-color: var(--gold); }
 .sector-tab.active.sector-tab-b { border-color: var(--blue); }
 .sector-tab:not(.active) { opacity: .62; }
@@ -345,6 +319,8 @@ html[lang="ar"] .cc-label { letter-spacing: 0; font-size: .85rem; }
 /* ============ FOOTER ============ */
 .site-footer { background: #0e0c0a; border-top: 1px solid rgba(var(--accent-rgb),.15); padding: 3rem 0 2rem; }
 .footer-inner { display: grid; gap: 1.6rem; justify-items: center; text-align: center; }
+.footer-brand { display: grid; justify-items: center; }
+.footer-brand .brand-img { height: 38px; }
 .footer-brand p { color: var(--text-light-mute); font-size: .85rem; margin-top: 1rem; }
 .footer-nav { display: flex; gap: 1.8rem; flex-wrap: wrap; justify-content: center; }
 .footer-nav a { color: var(--text-light); font-size: .9rem; }
@@ -383,7 +359,7 @@ html[lang="ar"] .cc-label { letter-spacing: 0; font-size: .85rem; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .stat:nth-child(3)::before { display: none; }
   .why-grid, .svc-grid, .mv-cards, .form-row, .contact-cards, .sector-tabs { grid-template-columns: 1fr; }
-  .brand-name { font-size: 1.2rem; }
+  .brand-img { height: 36px; }
   .hero h1 { font-size: 2rem; }
   .about, .why, .services, .quote { padding: 3.5rem 0; }
 }
