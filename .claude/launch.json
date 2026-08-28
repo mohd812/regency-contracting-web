@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "regency-site",
+      "runtimeExecutable": "/opt/homebrew/bin/npx",
+      "runtimeArgs": ["-y", "serve", "-l", "8734", "."],
+      "port": 8734
+    }
+  ]
+}
