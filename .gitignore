@@ -1,2 +1,4 @@
 .DS_Store
 node_modules/
+# Local file-sharing folder (not deployed; regencyc.co is public)
+shared/

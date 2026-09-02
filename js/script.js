@@ -8,13 +8,13 @@ const CONTACT = {
 
 /* ============ Services data (EN + AR) ============ */
 const GROUPS = [
-  { id: "a1", sector: "a", code: "A.1", en: "Construction & Buildings", ar: "الإنشاءات والمباني" },
-  { id: "a2", sector: "a", code: "A.2", en: "Roads & Infrastructure Projects", ar: "مشاريع الطرق والبنية التحتية" },
-  { id: "b1", sector: "b", code: "B.1", en: "IT & Infrastructure", ar: "تقنية المعلومات والبنية التحتية" },
-  { id: "b2", sector: "b", code: "B.2", en: "Security & Surveillance", ar: "الأمن والمراقبة" },
-  { id: "b3", sector: "b", code: "B.3", en: "Communication & Business Systems", ar: "الاتصالات وتقنيات الأعمال" },
-  { id: "b4", sector: "b", code: "B.4", en: "Smart & Automation", ar: "الأنظمة الذكية والأتمتة" },
-  { id: "b5", sector: "b", code: "B.5", en: "Power & Renewable Energy", ar: "الطاقة والدعم الفني" },
+  { id: "a1", sector: "a", code: "A.1", img: "svc-construction", en: "Construction & Buildings", ar: "الإنشاءات والمباني" },
+  { id: "a2", sector: "a", code: "A.2", img: "banner-roads", en: "Roads & Infrastructure Projects", ar: "مشاريع الطرق والبنية التحتية" },
+  { id: "b1", sector: "b", code: "B.1", img: "banner-tech", en: "IT & Infrastructure", ar: "تقنية المعلومات والبنية التحتية" },
+  { id: "b2", sector: "b", code: "B.2", img: "banner-security", en: "Security & Surveillance", ar: "الأمن والمراقبة" },
+  { id: "b3", sector: "b", code: "B.3", img: "banner-comms", en: "Communication & Business Systems", ar: "الاتصالات وتقنيات الأعمال" },
+  { id: "b4", sector: "b", code: "B.4", img: "banner-smart", en: "Smart & Automation", ar: "الأنظمة الذكية والأتمتة" },
+  { id: "b5", sector: "b", code: "B.5", img: "banner-power", en: "Power & Renewable Energy", ar: "الطاقة والدعم الفني" },
 ];
 
 const SERVICES = [
@@ -309,10 +309,13 @@ function renderServices() {
       return `
       <div class="svc-group sector-${g.sector}${isOpen ? " open" : ""}" data-group="${g.id}">
         <button type="button" class="svc-group-toggle" aria-expanded="${isOpen}" aria-controls="svcPanel-${g.id}">
+          <span class="svc-group-bg" aria-hidden="true">
+            <img src="assets/img/${g.img}.jpg" alt="" loading="lazy">
+          </span>
           <span class="svc-group-code">${g.code}</span>
           <span class="svc-group-title">
             <h3>${ar ? g.ar : g.en}</h3>
-            <small>${svcCountLabel(items.length, ar)}</small>
+            <small>${svcCountLabel(items.length, ar)} <span class="svc-group-hint">· <span class="hint-open">${ar ? "اضغط للاستعراض" : "click to explore"}</span><span class="hint-close">${ar ? "اضغط للإغلاق" : "click to close"}</span></span></small>
           </span>
           <span class="svc-group-chev" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
