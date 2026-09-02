@@ -270,7 +270,16 @@ function applyLang() {
   fillServiceSelect();
 }
 
-/* ============ Services rendering ============ */
+/* ============ Services rendering (accordion cards) ============ */
+let openGroup = null; // id of the currently expanded group, or null
+
+function svcCountLabel(n, ar) {
+  if (!ar) return `${n} services`;
+  if (n === 1) return "خدمة واحدة";
+  if (n === 2) return "خدمتان";
+  return `${n} خدمات`;
+}
+
 function renderServices() {
   const root = $("#servicesRoot");
   const ar = lang === "ar";
@@ -278,11 +287,12 @@ function renderServices() {
 
   root.innerHTML = groups
     .map((g) => {
-      const cards = SERVICES.filter((s) => s.group === g.id)
-        .map((s) => {
+      const items = SERVICES.filter((s) => s.group === g.id);
+      const cards = items
+        .map((s, i) => {
           const L = ar ? s.ar : s.en;
           return `
-          <article class="svc-card reveal in">
+          <article class="svc-card" style="--i:${i}">
             <div class="svc-media">
               <img src="assets/img/${s.img}.jpg" alt="${L.t}" loading="lazy">
               <span class="svc-num">${s.num}</span>
@@ -295,21 +305,57 @@ function renderServices() {
           </article>`;
         })
         .join("");
+      const isOpen = openGroup === g.id;
       return `
-      <div class="svc-group sector-${g.sector}">
-        <div class="svc-group-head">
+      <div class="svc-group sector-${g.sector}${isOpen ? " open" : ""}" data-group="${g.id}">
+        <button type="button" class="svc-group-toggle" aria-expanded="${isOpen}" aria-controls="svcPanel-${g.id}">
           <span class="svc-group-code">${g.code}</span>
-          <h3>${ar ? g.ar : g.en}</h3>
+          <span class="svc-group-title">
+            <h3>${ar ? g.ar : g.en}</h3>
+            <small>${svcCountLabel(items.length, ar)}</small>
+          </span>
+          <span class="svc-group-chev" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </button>
+        <div class="svc-group-panel" id="svcPanel-${g.id}" role="region">
+          <div class="svc-group-panel-inner">
+            <div class="svc-grid">${cards}</div>
+          </div>
         </div>
-        <div class="svc-grid">${cards}</div>
       </div>`;
     })
     .join("");
+
+  $$(".svc-group-toggle", root).forEach((btn) => {
+    btn.addEventListener("click", () => toggleGroup(btn.closest(".svc-group").dataset.group));
+  });
+}
+
+function toggleGroup(id) {
+  openGroup = openGroup === id ? null : id;
+  $$("#servicesRoot .svc-group").forEach((el) => {
+    const isOpen = el.dataset.group === openGroup;
+    el.classList.toggle("open", isOpen);
+    $(".svc-group-toggle", el).setAttribute("aria-expanded", isOpen);
+  });
+  // keep the opened card's header in view once the collapse above settles
+  if (openGroup) {
+    const el = $(`#servicesRoot .svc-group[data-group="${openGroup}"]`);
+    setTimeout(() => {
+      const top = el.getBoundingClientRect().top;
+      const headerH = $(".site-header")?.offsetHeight || 0;
+      if (top < headerH || top > window.innerHeight * 0.6) {
+        window.scrollTo({ top: window.scrollY + top - headerH - 16, behavior: "smooth" });
+      }
+    }, 320);
+  }
 }
 
 /* ============ Sector tabs ============ */
 function setSector(sector) {
   activeSector = sector;
+  openGroup = null;
   document.body.classList.toggle("theme-b", sector === "b");
   $("#tabA").classList.toggle("active", sector === "a");
   $("#tabB").classList.toggle("active", sector === "b");
