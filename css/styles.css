@@ -160,12 +160,12 @@ html[lang="ar"] .hero h1 { text-transform: none; }
 
 /* ============ SECTIONS ============ */
 .section-cream { background: var(--cream); color: var(--text-dark); }
-/* services area shifts to a cool ice-blue when the Technology sector is active */
-.services.section-cream { transition: background-color .5s ease; }
-body.theme-b .services.section-cream { background: #ddecf6; }
-body.theme-b .services .svc-group { border-color: #d0e4f0; }
-body.theme-b .services .svc-card { border-color: #d9e9f3; }
-body.theme-b .services .sector-tab:not(.active) { background: #f4f9fc; }
+/* cream sections shift to a cool ice-blue when the Technology sector is active */
+.section-cream { transition: background-color .5s ease; }
+body.theme-b .section-cream { background: #ddecf6; }
+body.theme-b .svc-group { border-color: #d0e4f0; }
+body.theme-b .svc-card { border-color: #d9e9f3; }
+body.theme-b .sector-tab:not(.active) { background: #f4f9fc; }
 .section-dark { background: var(--ink); color: var(--text-light); }
 section { scroll-margin-top: 80px; }
 .about, .why, .services, .quote { padding: 5rem 0; }
